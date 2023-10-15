@@ -17,7 +17,7 @@ public class CustomerController : ApiController
     }
 
     [HttpPost]
-    public IActionResult CreateCustomer(CreateCustomerRequest request)
+    public IActionResult CreateCustomer(CustomerMutationRequest request)
     {
         ErrorOr<Customer> customerInstantiationResult = Customer.CreateInstanceForSaving(
             request.Username,
@@ -57,17 +57,14 @@ public class CustomerController : ApiController
 
     // NOTE: in the assignment, the HTTP request type for this request was given as POST, but suitable HTTP request type is PUT
     [HttpPut("{id:guid}")]
-    public IActionResult UpdateCustomer(Guid id, UpdateCustomerRequest request)
+    public IActionResult UpdateCustomer(Guid id, CustomerMutationRequest request)
     {
-        Console.WriteLine(id);
         ErrorOr<Customer> customerRetrivalResult = _customerService.GetCustomer(id);
 
         if (customerRetrivalResult.IsError)
         {
             return Problem(customerRetrivalResult.Errors);
         }
-
-        Console.WriteLine(customerRetrivalResult.Value);
 
         ErrorOr<Customer> customerInstantiationResult = Customer.CreateInstanceForUpdation(
             customerRetrivalResult.Value,
@@ -93,6 +90,22 @@ public class CustomerController : ApiController
 
         return Ok(updatedCustomer);
     }
+
+    [HttpGet("{id:guid}")]
+    public IActionResult GetCustomer(Guid id)
+    {
+        ErrorOr<Customer> customerRetrivalResult = _customerService.GetCustomer(id);
+
+        if (customerRetrivalResult.IsError)
+        {
+            return Problem(customerRetrivalResult.Errors);
+        }
+
+        Customer customer = customerRetrivalResult.Value;
+
+        return Ok(customer);
+    }
+
 
     [HttpDelete("{id:guid}")]
     public IActionResult DeleteCustomer(Guid id)

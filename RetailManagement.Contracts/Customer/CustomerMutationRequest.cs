@@ -1,6 +1,6 @@
 namespace RetailManagement.Contracts.Customer;
 
-public record CreateCustomerRequest(
+public record CustomerMutationRequest(
     string Username,
     string Email,
     string FirstName,
