@@ -33,8 +33,14 @@ public class CustomerController : ApiController
 
         Customer customer = customerInstantiationResult.Value;
 
-        // save customer in the database
+        ErrorOr<Created> customersCreatorResult = _customerService.CreateCustomer(customer);
 
+        if (customersCreatorResult.IsError)
+        {
+            return Problem(customersCreatorResult.Errors);
+        }
+
+        // TODO: Configure ActionResult
         return CreatedAtAction(
             null,
             value: MapGetCustomerResponse(customer)
