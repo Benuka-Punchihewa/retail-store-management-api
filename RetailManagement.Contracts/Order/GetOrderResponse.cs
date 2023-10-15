@@ -4,7 +4,7 @@ namespace RetailManagement.Contracts.Order;
 
 public record GetOrderResponse(
     Guid OrderId,
-    GetProductResponse product,
+    GetProductResponse Product,
     int OrderStatus,
     int OrderType,
     Guid OrderBy,

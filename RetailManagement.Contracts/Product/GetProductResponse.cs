@@ -6,7 +6,7 @@ public record GetProductResponse(
     Guid ProductId,
     string ProductName,
     decimal UnitPrice,
-    GetSupplierResponse supplier,
+    GetSupplierResponse Supplier,
     DateTime CreatedOn,
     bool IsActive
 );
