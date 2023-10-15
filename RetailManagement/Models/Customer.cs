@@ -94,7 +94,7 @@ public class Customer
             errors.Add(Errors.Customer.InvalidEmailLength);
         }
 
-        if (Regex.IsMatch(customer.Email, @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"))
+        if (!Regex.IsMatch(customer.Email, @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"))
         {
             errors.Add(Errors.Customer.InvalidEmailFormat);
         }
