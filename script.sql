@@ -81,4 +81,37 @@ VALUES ('df27321b-1abe-4cb4-bd74-fbed5e462720', '729510e7-f390-4ecd-97fe-89cf12b
 
 INSERT INTO Orders (OrderId, ProductId, OrderStatus, OrderType, OrderBy, OrderedOn, ShippedOn, IsActive)
 VALUES ('3e376c54-1248-41cf-a371-63b30bf63cba', '1214c939-d826-4e39-adca-966aafde0d8b', 1, 1, '0c2c5b22-b9ea-45ba-bdfc-d39c4c61051a', GETDATE(), GETDATE(), 1);
+
+INSERT INTO Orders (OrderId, ProductId, OrderStatus, OrderType, OrderBy, OrderedOn, ShippedOn, IsActive)
+VALUES ('95a44038-14ba-4ecb-92b9-534766dd1ba8', '1214c939-d826-4e39-adca-966aafde0d8b', 1, 1, '0c2c5b22-b9ea-45ba-bdfc-d39c4c61051a', GETDATE(), GETDATE(), 0);
 -- Orders population end
+
+-- Define stored procedure to query active orders start
+CREATE PROCEDURE GetActiveOrdersByCustomer
+    @CustomerId UNIQUEIDENTIFIER 
+AS
+BEGIN
+    SELECT
+    O.OrderId,
+    O.OrderStatus,
+    O.OrderType,
+    O.OrderBy,
+    O.OrderedOn,
+    O.ShippedOn AS OrderShippedOn,
+    O.IsActive AS OrderIsActive,
+    P.ProductId,
+    P.ProductName,
+    P.UnitPrice AS ProductUnitPrice,
+    P.CreatedOn AS ProductCreatedOn,
+    P.IsActive AS ProductIsActive,
+    S.SupplierId,
+    S.SupplierName,
+    S.CreatedOn AS SupplierCreatedOn,
+    S.IsActive AS SupplierIsActive
+    FROM Orders O
+    INNER JOIN Products P ON O.ProductId = P.ProductId
+    INNER JOIN Suppliers S ON P.SupplierId = S.SupplierId
+    WHERE O.OrderBy = @CustomerId  
+        AND O.IsActive = 1;
+END
+-- Define stored procedure to query active orders end
