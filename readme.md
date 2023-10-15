@@ -2,14 +2,14 @@
 
 The Online Retail Store Management System is a .NET Core application that allows you to manage customers, orders, products, and suppliers for an online retail store.
 
+API Documentation - https://documenter.getpostman.com/view/20871743/2s9YR6ZtXi
+
 ## Table of Contents
 
 - [Features](#features)
 - [Prerequisites](#prerequisites)
 - [Getting Started](#getting-started)
 - [Database Structure](#database-structure)
-- [Contributing](#contributing)
-- [License](#license)
 
 ## Features
 
@@ -96,13 +96,3 @@ The `Supplier` table stores data about suppliers, including their name and creat
 This structured database design provides a comprehensive foundation for managing customer accounts, orders, products, and suppliers in your online retail system.
 
 Please note that additional columns or tables may be present based on specific project requirements or enhancements.
-
-## Contributing
-
-We welcome and encourage contributions to the Online Retail Store Management System project. Whether you want to report issues, submit feature requests, or contribute code, your participation is highly appreciated.
-
-## License
-
-The E-Commerce Management System is licensed under the MIT License. You are free to use, modify, and distribute this software for any purpose, provided you include the original copyright notice and the terms specified in the license.
-
-For more details, please read the [MIT License](https://github.com/Benuka-Punchihewa/retail-store-management-api/blob/main/LICENSE)
