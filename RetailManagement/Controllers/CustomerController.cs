@@ -110,7 +110,20 @@ public class CustomerController : ApiController
     [HttpDelete("{id:guid}")]
     public IActionResult DeleteCustomer(Guid id)
     {
+        ErrorOr<Customer> customerRetrivalResult = _customerService.GetCustomer(id);
 
-        return Ok();
+        if (customerRetrivalResult.IsError)
+        {
+            return Problem(customerRetrivalResult.Errors);
+        }
+
+        ErrorOr<Deleted> customersDeletionResult = _customerService.DeleteCustomer(id);
+
+        if (customersDeletionResult.IsError)
+        {
+            return Problem(customersDeletionResult.Errors);
+        }
+
+        return NoContent();
     }
 }

@@ -40,5 +40,15 @@ public static class Errors
             code: "Customer.DatabaseErr",
             description: "Customer not found."
         );
+
+        public static Error FailedToUpdateCustomer => Error.Unexpected(
+           code: "Customer.DatabaseErr",
+           description: "Failed to update the customer."
+       );
+
+        public static Error FailedToDeleteCustomer => Error.Unexpected(
+            code: "Customer.DatabaseErr",
+            description: "Failed to delete the customer."
+        );
     }
 }

@@ -83,7 +83,7 @@ public class CustomerService : ICustomerService
 
         if (rowsAffected == 0)
         {
-            return Errors.Customer.InvalidUsernameLength;
+            return Errors.Customer.FailedToCreateCustomer;
         }
 
         return Result.Created;
@@ -150,9 +150,30 @@ public class CustomerService : ICustomerService
 
         if (rowsAffected == 0)
         {
-            return Errors.Customer.InvalidUsernameLength;
+            return Errors.Customer.FailedToUpdateCustomer;
         }
 
         return Result.Updated;
+    }
+
+    public ErrorOr<Deleted> DeleteCustomer(Guid userId)
+    {
+        var rawQuery = "DELETE FROM Customers WHERE UserId = @UserId";
+        var cmd = new SqlCommand(rawQuery, con)
+        {
+            CommandType = System.Data.CommandType.Text
+        };
+
+        cmd.Parameters.AddWithValue("@UserId", userId);
+
+        // Execute the query
+        int rowsAffected = cmd.ExecuteNonQuery();
+
+        if (rowsAffected == 0)
+        {
+            return Errors.Customer.FailedToDeleteCustomer;
+        }
+
+        return Result.Deleted;
     }
 }
