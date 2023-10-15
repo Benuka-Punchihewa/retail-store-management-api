@@ -1,4 +1,4 @@
-# E-Commerce Management System
+# Online Retail Store Mangaement REST API
 
 The Online Retail Store Management System is a .NET Core application that allows you to manage customers, orders, products, and suppliers for an online retail store.
 
