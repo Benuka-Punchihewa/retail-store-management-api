@@ -3,12 +3,19 @@ using RetailManagement.Contracts.Customer;
 using RetailManagement.Models;
 using RetailManagment.Controllers;
 using ErrorOr;
+using RetailManagement.Services.Customers;
 
 namespace RetailManagement.Controllers;
 
 [Route("customers")]
 public class CustomerController : ApiController
 {
+    private readonly ICustomerService _customerService;
+    public CustomerController(ICustomerService customerService)
+    {
+        _customerService = customerService;
+    }
+
     [HttpPost]
     public IActionResult CreateCustomer(CreateCustomerRequest request)
     {
@@ -37,8 +44,9 @@ public class CustomerController : ApiController
     [HttpGet]
     public IActionResult GetAllCustomers()
     {
+        List<Customer> customers = _customerService.GetCustomers();
 
-        return Ok();
+        return Ok(customers);
     }
 
     // NOTE: in the assignment, the HTTP request type for this request was given as POST, but suitable HTTP request type is PUT

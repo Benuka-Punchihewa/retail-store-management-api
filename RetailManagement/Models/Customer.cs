@@ -23,7 +23,7 @@ public class Customer
     public DateTime CreatedOn { get; }
     public bool IsActive { get; }
 
-    private Customer(Guid userId, string userName, string email, string firstName, string lastName, DateTime createdOn, bool isActive)
+    public Customer(Guid userId, string userName, string email, string firstName, string lastName, DateTime createdOn, bool isActive)
     {
         UserId = userId;
         Username = userName;
