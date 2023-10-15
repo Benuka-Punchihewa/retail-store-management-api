@@ -43,7 +43,7 @@ public class CustomerController : ApiController
         // TODO: Configure ActionResult
         return CreatedAtAction(
             null,
-            value: MapGetCustomerResponse(customer)
+            value: customer
         );
     }
 
@@ -59,8 +59,39 @@ public class CustomerController : ApiController
     [HttpPut("{id:guid}")]
     public IActionResult UpdateCustomer(Guid id, UpdateCustomerRequest request)
     {
+        Console.WriteLine(id);
+        ErrorOr<Customer> customerRetrivalResult = _customerService.GetCustomer(id);
 
-        return Ok();
+        if (customerRetrivalResult.IsError)
+        {
+            return Problem(customerRetrivalResult.Errors);
+        }
+
+        Console.WriteLine(customerRetrivalResult.Value);
+
+        ErrorOr<Customer> customerInstantiationResult = Customer.CreateInstanceForUpdation(
+            customerRetrivalResult.Value,
+            request.Username,
+            request.Email,
+            request.FirstName,
+            request.LastName,
+            request.IsActive
+           );
+        if (customerInstantiationResult.IsError)
+        {
+            return Problem(customerInstantiationResult.Errors);
+        }
+
+        Customer updatedCustomer = customerInstantiationResult.Value;
+
+        ErrorOr<Updated> customersUpdationResult = _customerService.UpdateCustomer(updatedCustomer);
+
+        if (customersUpdationResult.IsError)
+        {
+            return Problem(customersUpdationResult.Errors);
+        }
+
+        return Ok(updatedCustomer);
     }
 
     [HttpDelete("{id:guid}")]
@@ -68,19 +99,5 @@ public class CustomerController : ApiController
     {
 
         return Ok();
-    }
-
-    private static GetCustomerResponse MapGetCustomerResponse(Customer customer)
-    {
-        return new GetCustomerResponse(
-                    customer.UserId,
-                    customer.Username,
-                    customer.Email,
-                    customer.FirstName,
-                    customer.LastName,
-                    customer.CreatedOn,
-                    customer.IsActive
-                 );
-
     }
 }

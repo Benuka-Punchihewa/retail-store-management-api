@@ -33,7 +33,12 @@ public static class Errors
 
         public static Error FailedToCreateCustomer => Error.Unexpected(
            code: "Customer.DatabaseErr",
-           description: "Failed to create the customer!"
+           description: "Failed to create the customer."
        );
+
+        public static Error CustomerNotFound => Error.NotFound(
+            code: "Customer.DatabaseErr",
+            description: "Customer not found."
+        );
     }
 }
