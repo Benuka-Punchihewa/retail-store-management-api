@@ -1,7 +1,8 @@
+using RetailManagement.DTO.Orders;
 
 namespace RetailManagement.Services.Orders;
 
 public interface IOrderService
 {
-    public void GetActiveOrders(Guid UserId);
+    public List<OrderDTO> GetActiveOrders(Guid UserId);
 }

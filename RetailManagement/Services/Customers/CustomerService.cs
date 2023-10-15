@@ -51,7 +51,7 @@ public class CustomerService : ICustomerService
                         firstName,
                         lastName,
                         DateTime.Parse(createdOn),
-                        isActive == "1"
+                        bool.Parse(isActive)
                     );
 
                 customers.Add(customer);
@@ -121,7 +121,7 @@ public class CustomerService : ICustomerService
                         firstName,
                         lastName,
                         DateTime.Parse(createdOn),
-                        isActive == "1"
+                        bool.Parse(isActive)
                     );
             }
         }

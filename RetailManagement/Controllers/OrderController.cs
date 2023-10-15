@@ -4,6 +4,7 @@ using RetailManagement.Services.Orders;
 using RetailManagement.Models;
 using ErrorOr;
 using RetailManagement.Services.Customers;
+using RetailManagement.DTO.Orders;
 
 namespace RetailManagement.Controllers;
 
@@ -28,8 +29,8 @@ public class OrderController : ApiController
             return Problem(customerRetrivalResult.Errors);
         }
 
-        _orderService.GetActiveOrders(id);
+        List<OrderDTO> orderDTOs = _orderService.GetActiveOrders(id);
 
-        return Ok();
+        return Ok(orderDTOs);
     }
 }
