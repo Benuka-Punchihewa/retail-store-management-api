@@ -1,6 +1,5 @@
 using System.Data;
 using System.Data.SqlClient;
-using System.Reflection.Metadata;
 using RetailManagement.DTO.Orders;
 using RetailManagement.Models;
 
@@ -32,6 +31,7 @@ public class OrderService : IOrderService
 
         cmd.Parameters.Add(new SqlParameter("@CustomerId", SqlDbType.UniqueIdentifier) { Value = UserId });
 
+        // Execute the procedure
         SqlDataReader rdr = cmd.ExecuteReader();
 
         while (rdr.Read())

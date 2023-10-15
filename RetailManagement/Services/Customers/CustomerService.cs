@@ -99,6 +99,7 @@ public class CustomerService : ICustomerService
 
         cmd.Parameters.AddWithValue("@UserId", id);
 
+        // Execute the query
         SqlDataReader rdr = cmd.ExecuteReader();
 
         if (rdr.Read())

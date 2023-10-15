@@ -22,6 +22,7 @@ public class OrderController : ApiController
     [HttpGet("customers/{id:guid}")]
     public IActionResult GetActiveOrders(Guid id)
     {
+        // retrieve customer -> this validates if customer exists
         ErrorOr<Customer> customerRetrivalResult = _customerService.GetCustomer(id);
 
         if (customerRetrivalResult.IsError)
@@ -29,6 +30,7 @@ public class OrderController : ApiController
             return Problem(customerRetrivalResult.Errors);
         }
 
+        // retrive active orders of the customer
         List<OrderDTO> orderDTOs = _orderService.GetActiveOrders(id);
 
         return Ok(orderDTOs);

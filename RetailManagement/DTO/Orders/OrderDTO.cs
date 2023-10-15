@@ -1,4 +1,3 @@
-
 using RetailManagement.Models;
 
 namespace RetailManagement.DTO.Orders;

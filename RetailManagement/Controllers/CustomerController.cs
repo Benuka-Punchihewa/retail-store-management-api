@@ -19,6 +19,7 @@ public class CustomerController : ApiController
     [HttpPost]
     public IActionResult CreateCustomer(CustomerMutationRequest request)
     {
+        // instantiate customer
         ErrorOr<Customer> customerInstantiationResult = Customer.CreateInstanceForSaving(
             request.Username,
             request.Email,
@@ -33,6 +34,7 @@ public class CustomerController : ApiController
 
         Customer customer = customerInstantiationResult.Value;
 
+        // save customer
         ErrorOr<Created> customersCreatorResult = _customerService.CreateCustomer(customer);
 
         if (customersCreatorResult.IsError)
@@ -40,9 +42,9 @@ public class CustomerController : ApiController
             return Problem(customersCreatorResult.Errors);
         }
 
-        // TODO: Configure ActionResult
         return CreatedAtAction(
-            null,
+            actionName: nameof(GetCustomer),
+            routeValues: new { id = customer.UserId },
             value: customer
         );
     }
@@ -50,6 +52,7 @@ public class CustomerController : ApiController
     [HttpGet]
     public IActionResult GetAllCustomers()
     {
+        // retrieve customers
         List<Customer> customers = _customerService.GetCustomers();
 
         return Ok(customers);
@@ -59,6 +62,7 @@ public class CustomerController : ApiController
     [HttpPut("{id:guid}")]
     public IActionResult UpdateCustomer(Guid id, CustomerMutationRequest request)
     {
+        // retrieve customer -> this validates if customer exists
         ErrorOr<Customer> customerRetrivalResult = _customerService.GetCustomer(id);
 
         if (customerRetrivalResult.IsError)
@@ -66,6 +70,7 @@ public class CustomerController : ApiController
             return Problem(customerRetrivalResult.Errors);
         }
 
+        // instantiate customer
         ErrorOr<Customer> customerInstantiationResult = Customer.CreateInstanceForUpdation(
             customerRetrivalResult.Value,
             request.Username,
@@ -79,6 +84,7 @@ public class CustomerController : ApiController
             return Problem(customerInstantiationResult.Errors);
         }
 
+        // update customer
         Customer updatedCustomer = customerInstantiationResult.Value;
 
         ErrorOr<Updated> customersUpdationResult = _customerService.UpdateCustomer(updatedCustomer);
@@ -94,6 +100,7 @@ public class CustomerController : ApiController
     [HttpGet("{id:guid}")]
     public IActionResult GetCustomer(Guid id)
     {
+        // retrieve customer
         ErrorOr<Customer> customerRetrivalResult = _customerService.GetCustomer(id);
 
         if (customerRetrivalResult.IsError)
@@ -110,6 +117,7 @@ public class CustomerController : ApiController
     [HttpDelete("{id:guid}")]
     public IActionResult DeleteCustomer(Guid id)
     {
+        // retrieve customer -> this validates if customer exists
         ErrorOr<Customer> customerRetrivalResult = _customerService.GetCustomer(id);
 
         if (customerRetrivalResult.IsError)
@@ -117,6 +125,7 @@ public class CustomerController : ApiController
             return Problem(customerRetrivalResult.Errors);
         }
 
+        // delete customer
         ErrorOr<Deleted> customersDeletionResult = _customerService.DeleteCustomer(id);
 
         if (customersDeletionResult.IsError)

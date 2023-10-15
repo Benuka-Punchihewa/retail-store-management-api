@@ -9,6 +9,7 @@ public class ApiController : ControllerBase
 {
     protected IActionResult Problem(List<Error> errors)
     {
+        // for only validation errors use ValidationProblem
         if (errors.All(e => e.Type == ErrorType.Validation))
         {
             var modelStateDictionary = new ModelStateDictionary();
@@ -21,6 +22,7 @@ public class ApiController : ControllerBase
             return ValidationProblem(modelStateDictionary);
         }
 
+        // for unhandled throw internal server error
         if (errors.Any(e => e.Type == ErrorType.Unexpected))
         {
             return Problem();

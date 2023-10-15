@@ -1,4 +1,3 @@
-
 using RetailManagement.Models;
 using ErrorOr;
 
