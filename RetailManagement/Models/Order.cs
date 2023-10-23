@@ -24,4 +24,22 @@ public class Order
         ShippedOn = shippedOn;
         IsActive = isActive;
     }
+
+    public static Order CreateInstanceForSaving(Guid ProductId, Guid OrderBy)
+    {
+
+        Order order = new(
+            Guid.NewGuid(),
+            ProductId,
+            1,
+            1,
+            OrderBy,
+            DateTime.UtcNow,
+            DateTime.UtcNow,
+            true
+        );
+
+
+        return order;
+    }
 }
