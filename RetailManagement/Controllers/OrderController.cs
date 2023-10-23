@@ -5,6 +5,7 @@ using RetailManagement.Models;
 using ErrorOr;
 using RetailManagement.Services.Customers;
 using RetailManagement.DTO.Orders;
+using RetailManagement.Contracts.Order;
 
 namespace RetailManagement.Controllers;
 
@@ -34,5 +35,21 @@ public class OrderController : ApiController
         List<OrderDTO> orderDTOs = _orderService.GetActiveOrders(id);
 
         return Ok(orderDTOs);
+    }
+
+    [HttpPost]
+    public IActionResult CreateCustomer(OrderMutationRequest request)
+    {
+        // instantiate order
+        Order order = Order.CreateInstanceForSaving(request.ProductId, request.OrderBy);
+
+        // save order
+        _orderService.CreateOrder(order);
+
+        return CreatedAtAction(
+            actionName: null,
+            routeValues: new { id = order.OrderId },
+            value: order
+        );
     }
 }

@@ -1,5 +1,6 @@
 using System.Data;
 using System.Data.SqlClient;
+using ErrorOr;
 using RetailManagement.DTO.Orders;
 using RetailManagement.Models;
 
@@ -98,5 +99,38 @@ public class OrderService : IOrderService
         }
 
         return orderDTOs;
+    }
+
+    public ErrorOr<Created> CreateOrder(Order order)
+    {
+
+        var rawQuery = "INSERT INTO Orders (OrderId, ProductId, OrderStatus, OrderType, OrderBy, OrderedOn, ShippedOn, IsActive)" +
+           "VALUES(@OrderId, @ProductId, @OrderStatus, @OrderType, @OrderBy, @OrderedOn, @ShippedOn, @IsActive);";
+        var cmd = new SqlCommand(rawQuery, con)
+        {
+            CommandType = System.Data.CommandType.Text
+        };
+
+        cmd.Parameters.AddWithValue("@OrderId", order.OrderId);
+        cmd.Parameters.AddWithValue("@ProductId", order.ProductId);
+        cmd.Parameters.AddWithValue("@OrderStatus", order.OrderStatus);
+        cmd.Parameters.AddWithValue("@OrderType", order.OrderType);
+        cmd.Parameters.AddWithValue("@OrderBy", order.OrderBy);
+        cmd.Parameters.AddWithValue("@OrderedOn", order.OrderedOn);
+        cmd.Parameters.AddWithValue("@ShippedOn", order.ShippedOn);
+        cmd.Parameters.AddWithValue("@IsActive", order.IsActive ? 1 : 0);
+
+        // Execute the query
+        int rowsAffected = cmd.ExecuteNonQuery();
+
+        if (rowsAffected == 0)
+        {
+            return Error.Unexpected(
+           code: "Customer.DatabaseErr",
+           description: "Failed to update the customer."
+       );
+        }
+
+        return Result.Created;
     }
 }
